@@ -38,14 +38,13 @@ string countAndSay(int n)
 int main(int argc, char** argv)
 {
   unsigned n = 1;
-  if (argc != 2){
+  if ((argc != 2) || ( !(n = atoi(argv[1]))))
+    {
     cout << "Usage: " << argv[0] << " "
-	 << "n"<<endl;
+	 << "<unsigned int>"<<endl;
     return -1;
-  }
+    }
   
-  if (!(n = atoi(argv[1])))
-    return -1;
   cout << countAndSay(n) << endl;
   return 0;
 }
