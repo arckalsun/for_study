@@ -16,14 +16,17 @@ def onKeyboardEvent(event):
   x,y = m.position()
   #print "Down"
   #x,y = event.Position
+  if event.KeyID == 27:
+    print "quit"
+    exit(-1)
   if event.KeyID > 58 or event.KeyID < 48 :
     m.click(x ,y ,1) 
     print "\tclick  1"
     return True
   for i in range(event.KeyID-48):
-    m.click(x ,y ,1)
+    m.click(x ,y,1 )
     
-    sleep(0.1)
+    sleep(0.12)
   print "\tclick %2d " % (event.KeyID-48)
   # 返回 True 以便将事件传给其它处理程序   
   # 注意，这儿如果返回 False ，则鼠标事件将被全部拦截   
