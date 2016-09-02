@@ -1,0 +1,11 @@
+#include<stdio.h>
+
+int main(void)
+{
+  int n = 0;
+  char* str = countAndSay(n);
+  printf("count: %2d\tsay: %5s\n",n,str);
+  return 0;
+}
+
+
