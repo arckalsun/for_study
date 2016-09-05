@@ -1,0 +1,61 @@
+#!/bin/bash
+#chkconfig:345 66 33
+#description:this is sudoku service
+# sudo update-rc.d sudoku defaults
+
+### BEGIN INIT INFO
+# Provides:          sudoku
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Should-Start:      $network $time
+# Should-Stop:       $network $time
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start deamon at boot time
+# Description:       Start sudoku server,listen port 4096
+#                    
+### END INIT INFO
+#
+
+set -e
+set -u
+
+case "$1" in
+start)
+	touch /var/lock/subsys/sudoku
+	echo "sudoku start at `date`">>/usr/local/sudoku/log
+	/usr/local/sudoku/sudoku_server.out &
+;;
+stop)
+	
+	#echo "sudoku stop at `date`">>/usr/local/sudoku/log
+	PID=`ps -e |grep sudoku_server | awk '{print $1}'`
+	if  [ $PID ]; then
+		echo "sudoku stop at `date`">>/usr/local/sudoku/log
+		kill $PID
+		rm  /var/lock/subsys/sudoku
+	else
+		echo "sudoku server is not running."
+		exit 1
+	fi
+;;
+status)
+	PID=`ps -e |grep sudoku_server | awk '{print $1}'`
+	if [ -z $PID ];then
+	echo "sudoku server not running"
+	else
+	echo "sudoku server is running..., pid="$PID
+	fi
+
+;;
+restart|reload)
+	echo "restart sudoku server..."
+	PID=`ps -e |grep sudoku_server | awk '{print $1}'`
+        kill $PID
+	echo "sudoku restart at `date`">>/usr/local/sudoku/log
+        /usr/local/sudoku/sudoku_server.out
+;;
+*)
+exit 1
+esac
+exit 0
